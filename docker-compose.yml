@@ -1,0 +1,47 @@
+version: "3"
+
+services:
+
+  db:
+    build: db/
+
+    ports:
+      - 5000:5000
+
+
+  main-service:
+    build: main-service/
+    
+    ports:
+      - 5001:5001
+
+    comand: ""
+
+    depends_on:
+      - db
+
+
+  web-app:
+    build: web-app/
+
+    ports:
+      - 5002:5002
+
+    comand: ""
+
+    depends_on:
+      - db
+      - main-service
+
+
+  admin-app:
+    build: admin-app/
+
+    ports:
+      - 5003:5003
+
+    comand: ""
+
+    depends_on:
+      - db
+      - main-service
