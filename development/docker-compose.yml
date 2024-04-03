@@ -1,0 +1,89 @@
+version: "3"
+
+COMPOSE_PROJECT_NAME: facthost
+
+services:
+
+  web-server:
+    build: web-server/
+
+    ports: 5000:5000
+
+    
+  db:
+    build: db/
+
+    ports:
+      - 5001:5001
+
+    depends_on:
+      - web-server
+
+
+  cache:
+    build: cache/
+
+    ports: 
+      - 5002:5002
+
+
+  main-service:
+    build: main-service/
+    
+    ports:
+      - 5003:5003
+
+    comand: ""
+
+    depends_on:
+      - db
+      - cache
+
+
+  web-app-backend:
+    build: web-app/backend/
+
+    ports:
+      - 5003:5004
+
+    comand: ""
+
+    depends_on:
+      - main-service
+
+
+  web-app-frontend:
+    build: web-app/frontend/
+
+    ports:
+      - 5005:5005
+
+    comand: ""
+
+    depends_on:
+      - web-app-backend
+  
+ 
+  admin-app-backend:
+    build: admin-app/backend/
+
+    ports:
+      - 5006:5006
+
+    comand: ""
+
+    depends_on:
+      - db
+      - main-service
+
+
+  admin-app-frontend:
+    build: admin-app/frontend/
+
+    ports:
+      - 5007:5007
+
+    comand: ""
+
+    depends_on:
+      - admin-app-backend
