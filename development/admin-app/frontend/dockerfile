@@ -1,6 +1,14 @@
-FROM node
+FROM node:20 
 
-LABEL name = "FILIkR"
+WORKDIR /app
 
+COPY package.json ./
+COPY package-lock.json ./
+
+RUN npm install
+
+COPY . ./
+
+CMD ["npm", "run", "dev"]
 
 
